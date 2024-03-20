@@ -1,6 +1,6 @@
-import axios from '../utils//axios';
+import axios from '../utils/axios';
 
-function jwtDecode(token) {
+function jwtDecode(token: string) {
   const base64Url = token.split('.')[1];
   const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
   const jsonPayload = decodeURIComponent(
@@ -16,7 +16,7 @@ function jwtDecode(token) {
 
 // ----------------------------------------------------------------------
 
-export const isValidToken = (access_token) => {
+export const isValidToken = (access_token: string) => {
   if (!access_token) {
     return false;
   }
@@ -30,7 +30,7 @@ export const isValidToken = (access_token) => {
 
 // ----------------------------------------------------------------------
 
-export const tokenExpired = (exp) => {
+export const tokenExpired = (exp: number) => {
   // eslint-disable-next-line prefer-const
   let expiredTimer;
 
@@ -53,8 +53,7 @@ export const tokenExpired = (exp) => {
 
 // ----------------------------------------------------------------------
 
-export const setSession = (access_token) => {
-  console.log('access_token', access_token);
+export const setSession = (access_token: string | null) => {
   if (access_token) {
     localStorage.setItem('access_token', access_token);
 

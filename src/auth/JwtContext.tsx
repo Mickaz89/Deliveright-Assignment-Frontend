@@ -87,7 +87,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const initialize = useCallback(async () => {
-    console.log('initialize')
     try {
       const access_token = localStorage.getItem('access_token');
       if (access_token && isValidToken(access_token)) {
@@ -145,14 +144,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
           user,
         },
       });
-    } catch (error) {
-      console.log('ERROR', error)
+    } catch (error: any) {
       dispatch({
         type: 'ERROR',
         payload: {
           isAuthenticated: false,
           user: null,
-          error: error.message,
+          error: error.message as string,
         },
       });
     }
