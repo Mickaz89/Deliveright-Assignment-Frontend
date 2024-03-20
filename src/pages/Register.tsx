@@ -1,10 +1,42 @@
-import { Box } from '@mui/material'
-import React from 'react'
+import React, {useState} from 'react';
+import { Link } from 'react-router-dom';
+import { Box, Grid, Typography } from '@mui/material';
+import { useAuthContext } from '../auth/useAuthContext';
+import { Input } from '../components/Input';
+import CustomButton from '../components/CustomButton';
+
 
 export const Register = () => {
-    return (
-        <Box>
-            Register
-        </Box>
-    )
+    const { register, error } = useAuthContext();
+
+    const [name, setName] = useState('')
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+
+    const submit = async () => {
+        await register(username, password, name);
+    }
+
+  return (
+        <Box height={"100%"} display="flex" justifyContent="center" flexDirection="column" alignItems="center">
+        <Grid container justifyContent="center">
+          <Grid item xs={10} sm={10} md={8} lg={6}>
+            <Box display="flex" flexDirection="column" >
+              <Input onChange={(e) => setName(e.target.value)} value={name} label="Name" />
+              <Input onChange={(e) => setUsername(e.target.value)} value={username} label="Username" sx={{ marginTop: 2 }}/>
+              <Input onChange={(e) => setPassword(e.target.value)} value={password} label="Password" sx={{ marginTop: 2 }}/>
+              <Box display="flex" justifyContent={"center"}>
+                <Typography variant="body2" sx={{ marginTop: 2, color: "white" }}>
+                Already have an account? <Link style={{color:"white"}}  to="/login">Sign In</Link>
+                </Typography>
+                {error && <Typography color="error">{error}</Typography>}
+              </Box>
+              <CustomButton sx={{ marginTop: 2 }} onClick={submit}>Register</CustomButton>
+            </Box>
+          </Grid>
+        </Grid>
+      </Box>
+  );
 }
+
+export default Register;
