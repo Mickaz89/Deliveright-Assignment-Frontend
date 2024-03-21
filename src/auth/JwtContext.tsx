@@ -93,10 +93,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       const access_token = localStorage.getItem('access_token');
       if (access_token && isValidToken(access_token)) {
         setSession(access_token);
-
         const response = await axios.get('/auth/profile');
-
-        const { user } = response.data;
+        const  user  = response.data;
 
         dispatch({
           type: 'INITIAL',

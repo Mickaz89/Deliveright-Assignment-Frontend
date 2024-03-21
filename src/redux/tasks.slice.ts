@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { AppDispatch, RootState } from './store'
 import axiosInstance from '../utils/axios'
-import { Task } from '../interfaces'
+import { CreateTask, Task } from '../interfaces'
 
 export interface TaskState {
     tasks: Task[],
@@ -47,6 +47,18 @@ export const fetchTasks = () => async (dispatch: AppDispatch, getState: () => Ro
 
         const response = await axiosInstance.get(url);
         dispatch(fetchTasksSuccess(response.data));
+    } catch (error) {
+        if (error instanceof Error) {
+            dispatch(onError(error.message));
+        }
+    }
+};
+
+export const createTask = (body: CreateTask) => async (dispatch: AppDispatch, getState: () => RootState) => {
+    try {
+        let url = `http://localhost:3000/task/create`
+        await axiosInstance.post(url, body);
+        dispatch(fetchTasks());
     } catch (error) {
         if (error instanceof Error) {
             dispatch(onError(error.message));

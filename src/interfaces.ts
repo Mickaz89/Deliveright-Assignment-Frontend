@@ -11,3 +11,16 @@ export interface Task {
   status: TaskStatus;
   user: Types.ObjectId;
 }
+
+export interface CreateTask {
+    content: string;
+    status: TaskStatus;
+    user: Types.ObjectId;
+  }
+
+export interface User {
+    _id: Types.ObjectId;
+    username: string;
+    name: string;
+    password: string;
+}
