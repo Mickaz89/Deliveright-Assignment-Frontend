@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Grid, IconButton, InputAdornment, Paper, Theme, useTheme, Typography } from '@mui/material';
-import { AddCircleOutlineOutlined, ArrowCircleUpOutlined, Visibility } from '@mui/icons-material';
+import React, { useEffect, useState, useRef } from 'react';
+import { Box, Grid, IconButton, InputAdornment, Paper, Theme, useTheme, Typography, Checkbox } from '@mui/material';
+import { AddCircleOutlineOutlined, ArrowCircleUpOutlined, DeleteOutlineOutlined } from '@mui/icons-material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import { useAuthContext } from '../auth/useAuthContext';
 import CustomButton from '../components/CustomButton';
 import { Input } from '../components/Input';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { createTask, fetchTasks } from '../redux/tasks.slice';
+import { createTask, deleteTask, fetchTasks, updateTask } from '../redux/tasks.slice';
 import { Task, TaskStatus, User } from '../interfaces'
 import { RootState } from '../redux/store';
 import { styled } from '@mui/system';
@@ -44,8 +46,14 @@ export const Dashboard = () => {
         dispatch(fetchTasks())
     }, []);
 
-    const onSubmit = () => {
+    const inputRef = React.useRef<HTMLInputElement>(null);
+
+    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         dispatch(createTask({ content, user: user._id, status: TaskStatus.OPEN }))
+        if (inputRef.current) {
+            inputRef.current.blur();
+          }
     }
 
     return (
@@ -57,29 +65,33 @@ export const Dashboard = () => {
             </Box>
             <Grid container justifyContent="center">
                 <Grid item xs={10} sm={10} md={8} lg={6}>
-                    <Input
-                        fullWidth
-                        onChange={(e) => setContent(e.target.value)}
-                        value={content}
-                        placeholder='Add task'
-                        inputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <AddCircleOutlineOutlined sx={{ color: theme.palette.grey[700] }} />
-                                </InputAdornment>
-                            ),
-                            endAdornment: (
-                                <InputAdornment position="end">
-                                    <IconButton disabled={disabled} onClick={onSubmit}>
-                                        <ArrowCircleUpOutlined sx={{ color: disabled ? theme.palette.grey[700] : theme.palette.primary.dark }} />
-                                    </IconButton>
-                                </InputAdornment>
-                            ),
-                        }}
-                    />
+                    <form onSubmit={onSubmit}>
+                        <Input
+                            inputRef={inputRef}
+                            fullWidth
+                            onChange={(e) => setContent(e.target.value)}
+                            value={content}
+                            placeholder='Add task'
+                            inputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <AddCircleOutlineOutlined sx={{ color: theme.palette.grey[700] }} />
+                                    </InputAdornment>
+                                ),
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton disabled={disabled} type="submit">
+                                            <ArrowCircleUpOutlined sx={{ color: disabled ? theme.palette.grey[700] : theme.palette.primary.dark }} />
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </form>
                     <Box sx={{ marginTop: '25px', height: '450px', overflowY: 'auto' }}>
                         {tasks.map((task: Task, index: number) => (
                             <Paper elevation={3} key={index} sx={{
+                                opacity: task.status === TaskStatus.CLOSED ? 0.3 : 1,
                                 borderRadius: '10px',
                                 padding: '15px',
                                 marginBottom: '10px',
@@ -89,12 +101,23 @@ export const Dashboard = () => {
                                     backgroundColor: theme.palette.lightGrey,
                                 },
                             }}>
-
-
-                                    <Typography fontWeight={'light'}>
-                                        {task.content}
-                                    </Typography>
-
+                                <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
+                                    <Box alignItems="center" display="flex" flexDirection="row" >
+                                        <Checkbox
+                                            onChange={() => dispatch(updateTask(task._id, { status: task.status === TaskStatus.OPEN ? TaskStatus.CLOSED : TaskStatus.OPEN }))}
+                                            icon={<RadioButtonUncheckedIcon />}
+                                            checkedIcon={<CheckCircleIcon />}
+                                        />
+                                        <Typography sx={{ marginLeft: "10px" }} fontWeight={'light'}>
+                                            {task.content}
+                                        </Typography>
+                                    </Box>
+                                    <Box>
+                                        <IconButton onClick={() => dispatch(deleteTask(task._id))}>
+                                            <DeleteOutlineOutlined  />
+                                        </IconButton>
+                                    </Box>
+                                </Box>
                             </Paper>
                         ))}
                     </Box>

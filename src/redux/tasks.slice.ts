@@ -3,6 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { AppDispatch, RootState } from './store'
 import axiosInstance from '../utils/axios'
 import { CreateTask, Task } from '../interfaces'
+import { Types } from 'mongoose'
 
 export interface TaskState {
     tasks: Task[],
@@ -65,5 +66,29 @@ export const createTask = (body: CreateTask) => async (dispatch: AppDispatch, ge
         }
     }
 };
+
+export const updateTask = (id: Types.ObjectId, body: Partial<CreateTask>) => async (dispatch: AppDispatch, getState: () => RootState) => {
+    try {
+        let url = `http://localhost:3000/task/update/${id}`
+        await axiosInstance.post(url, body);
+        dispatch(fetchTasks());
+    } catch (error) {
+        if (error instanceof Error) {
+            dispatch(onError(error.message));
+        }
+    }
+}
+
+export const deleteTask = (id: Types.ObjectId) => async (dispatch: AppDispatch, getState: () => RootState) => {
+    try {
+        let url = `http://localhost:3000/task/delete/${id}`
+        await axiosInstance.delete(url);
+        dispatch(fetchTasks());
+    } catch (error) {
+        if (error instanceof Error) {
+            dispatch(onError(error.message));
+        }
+    }
+}
 
 export default taskSlice.reducer

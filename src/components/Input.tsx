@@ -33,13 +33,15 @@ interface InputProps {
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     value: string,
     placeholder?: string
-    fullWidth?: boolean
+    fullWidth?: boolean,
+    inputRef?: React.Ref<any>
 }
 
-export const Input: React.FC<InputProps> = ({ label, sx, onChange, value, placeholder, inputProps, fullWidth }) => {
+export const Input: React.FC<InputProps> = ({ label, sx, onChange, value, placeholder, inputProps, fullWidth, inputRef }) => {
 
     return (
         <StyledInput
+            inputRef={inputRef}
             fullWidth={fullWidth}
             onChange={onChange}
             value={value}
