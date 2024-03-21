@@ -1,20 +1,32 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Box, Grid, IconButton, InputAdornment, Paper, Theme, useTheme } from '@mui/material';
 import { AddCircleOutlineOutlined, ArrowCircleUpOutlined, Visibility } from '@mui/icons-material';
 import { useAuthContext } from '../auth/useAuthContext';
 import CustomButton from '../components/CustomButton';
 import { Input } from '../components/Input';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { fetchTasks } from '../redux/tasks.slice';
+import { Task } from '../interfaces'
+import { RootState } from '../redux/store';
 
 export const Dashboard = () => {
+
+    const dispatch = useAppDispatch();
     const theme: Theme = useTheme();
     const { logout } = useAuthContext();
 
-    const [input, setInput] = React.useState<string>('');
-    const [disabled, setDisabled] = React.useState<boolean>(true);
+    const [input, setInput] = useState<string>('');
+    const [disabled, setDisabled] = useState<boolean>(true);
 
-    React.useEffect(() => {
+    const tasks: Task[] = useAppSelector((state: RootState) => state.tasks.tasks);
+
+    useEffect(() => {
         setDisabled(input === '');
     }, [input]);
+
+    useEffect(() => {
+        dispatch(fetchTasks())
+    }, []);
 
     return (
         <Box height="100%">
@@ -46,11 +58,13 @@ export const Dashboard = () => {
                             }}
                         />
                         <Box mt={10}>
-                            <Paper elevation={3 }>
-                                <Box p={5}>
-                                    Hello
-                                </Box>
-                            </Paper>
+                            {tasks.map((task: Task, index: number) => (
+                                <Paper elevation={3} key={index}>
+                                    <Box mb={2} p={5}>
+                                        {task.content}
+                                    </Box>
+                                </Paper>
+                            ))}
                         </Box>
                     </Grid>
                 </Grid>
