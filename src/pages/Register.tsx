@@ -25,11 +25,11 @@ export const Register = () => {
               <Input onChange={(e) => setName(e.target.value)} value={name} label="Name" />
               <Input onChange={(e) => setUsername(e.target.value)} value={username} label="Username" sx={{ marginTop: 2 }}/>
               <Input onChange={(e) => setPassword(e.target.value)} value={password} label="Password" sx={{ marginTop: 2 }}/>
-              <Box display="flex" justifyContent={"center"}>
+              <Box mt={2} display="flex" flexDirection={"column"} alignItems={"center"}>
+              {error && <Typography color="error">{error}</Typography>}
                 <Typography variant="body2" sx={{ marginTop: 2, color: "white" }}>
                 Already have an account? <Link style={{color:"white"}}  to="/login">Sign In</Link>
                 </Typography>
-                {error && <Typography color="error">{error}</Typography>}
               </Box>
               <CustomButton sx={{ marginTop: 2 }} onClick={submit}>Register</CustomButton>
             </Box>

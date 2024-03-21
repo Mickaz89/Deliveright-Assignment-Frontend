@@ -67,13 +67,13 @@ const reducer = (state: State, action: Action): State => {
         user: null,
         error: null
       };
-      case 'ERROR':
-        return {
-          ...state,
-          isAuthenticated: false,
-          user: null,
-          error: action.payload?.error || null
-        };
+    case 'ERROR':
+      return {
+        ...state,
+        isAuthenticated: false,
+        user: null,
+        error: action.payload?.error || null
+      };
     default:
       return state;
   }
@@ -116,7 +116,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         });
       }
     } catch (error: any) {
-      console.error(error);
       dispatch({
         type: 'INITIAL',
         payload: {
@@ -162,21 +161,33 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const register = async (username: string, password: string, name: string) => {
-    const response = await axios.post('/auth/register', {
-      username,
-      password,
-      name
-    });
-    const { access_token, user } = response.data;
-    setSession(access_token);
-    dispatch({
-      type: 'REGISTER',
-      payload: {
-        isAuthenticated: true,
-        user,
-        error: null
-      },
-    });
+    try {
+      const response = await axios.post('/auth/register', {
+        username,
+        password,
+        name
+      });
+      const { access_token, user } = response.data;
+      setSession(access_token);
+      dispatch({
+        type: 'REGISTER',
+        payload: {
+          isAuthenticated: true,
+          user,
+          error: null
+        },
+      });
+    } catch (error: any) {
+      dispatch({
+        type: 'ERROR',
+        payload: {
+          isAuthenticated: false,
+          user: null,
+          error: error.message as string,
+        },
+      });
+    }
+
   };
 
   const logout = async () => {
