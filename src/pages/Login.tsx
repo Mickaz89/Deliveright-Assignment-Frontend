@@ -15,7 +15,6 @@ export const Login = () => {
   const submit = async () => {
     await login(username, password);
   }
-
   return (
     <Box height={"100%"} display="flex" justifyContent="center" flexDirection="column" alignItems="center">
       <Grid container justifyContent="center">
@@ -23,11 +22,11 @@ export const Login = () => {
           <Box display="flex" flexDirection="column" >
             <Input onChange={(e) => setUsername(e.target.value)} value={username} label="Username" />
             <Input onChange={(e) => setPassword(e.target.value)} value={password} sx={{ marginTop: 2 }} label="Password" />
-            <Box display="flex" justifyContent={"center"}>
+            <Box mt={2} display="flex" flexDirection={"column"} alignItems={"center"}>
+            {error && error !== null && <Typography color="error">{error}</Typography>}
               <Typography variant="body2" sx={{ marginTop: 2, color: "white" }}>
                 Don't have an account? <Link style={{color:"white"}} to="/register">Sign Up</Link>
               </Typography>
-              {error && <Typography color="error">{error}</Typography>}
             </Box>
             <CustomButton sx={{ marginTop: 2 }} onClick={submit}>Login</CustomButton>
           </Box>

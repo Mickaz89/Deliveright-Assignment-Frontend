@@ -10,15 +10,15 @@ interface State {
   login: (username: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   register: (username: string, password: string, name: string) => Promise<void>;
-  error: string;
+  error: string | null;
 }
 
 interface Action {
   type: string;
   payload?: {
-    isAuthenticated: boolean;
-    user: any;
-    error?: string;
+    isAuthenticated?: boolean;
+    user?: any;
+    error?: string | null;
   };
 }
 
@@ -36,7 +36,7 @@ const initialState: State = {
   register: function (username: string, password: string, name: string): Promise<void> {
     throw new Error('Function not implemented.');
   },
-  error: ""
+  error: null
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -50,7 +50,7 @@ const reducer = (state: State, action: Action): State => {
         login: initialState.login,
         logout: initialState.logout,
         register: initialState.register,
-        error:""
+        error: null
       };
     case 'LOGIN':
     case 'REGISTER':
@@ -58,19 +58,21 @@ const reducer = (state: State, action: Action): State => {
         ...state,
         isAuthenticated: true,
         user: action.payload?.user || null,
+        error: null
       };
     case 'LOGOUT':
       return {
         ...state,
         isAuthenticated: false,
         user: null,
+        error: null
       };
       case 'ERROR':
         return {
           ...state,
           isAuthenticated: false,
           user: null,
-          error: action.payload?.error || ""
+          error: action.payload?.error || null
         };
     default:
       return state;
@@ -101,6 +103,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           payload: {
             isAuthenticated: true,
             user,
+            error: null
           },
         });
       } else {
@@ -112,13 +115,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
           },
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
       dispatch({
         type: 'INITIAL',
         payload: {
           isAuthenticated: false,
           user: null,
+          error: error.message as string
         },
       });
     }
@@ -142,6 +146,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         payload: {
           isAuthenticated: true, // Add the missing property
           user,
+          error: null
         },
       });
     } catch (error: any) {
@@ -169,6 +174,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       payload: {
         isAuthenticated: true,
         user,
+        error: null
       },
     });
   };
@@ -177,6 +183,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setSession(null);
     dispatch({
       type: 'LOGOUT',
+      payload: {
+        isAuthenticated: false,
+        error: null
+      },
     });
   };
 
