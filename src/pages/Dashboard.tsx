@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Box, Grid, IconButton, InputAdornment, Paper, Theme, useTheme, Typography, Checkbox } from '@mui/material';
 import { AddCircleOutlineOutlined, ArrowCircleUpOutlined, DeleteOutlineOutlined } from '@mui/icons-material';
+import CircleIcon from '@mui/icons-material/Circle';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import { useAuthContext } from '../auth/useAuthContext';
@@ -51,6 +52,7 @@ export const Dashboard = () => {
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         dispatch(createTask({ content, user: user._id, status: TaskStatus.OPEN }))
+        setContent('');
         if (inputRef.current) {
             inputRef.current.blur();
           }
@@ -58,10 +60,27 @@ export const Dashboard = () => {
 
     return (
         <RootContainer>
-            <Box p={5}>
-                <CustomButton onClick={() => logout()}>
-                    Logout
-                </CustomButton>
+            <Box  width={"100%"}>
+                <Box p={5}>
+                    <CustomButton onClick={() => logout()}>
+                        Logout
+                    </CustomButton>
+                </Box>
+                <Grid container justifyContent="center">
+                    <Grid item xs={10} sm={10} md={8} lg={6}>
+                        <Box display={"flex"} flexDirection={"row"} alignItems={"self-end"}>
+                            <Typography variant="h4" color="white">
+                                        Hello {user.name}
+                            </Typography>
+                            <Typography color="white">
+                                <CircleIcon sx={{color: theme.palette.primary.dark, fontSize:"10px"}} />
+                            </Typography>
+                        </Box>
+                        <Typography variant="h5" color={theme.palette.grey[600]} sx={{marginBottom:3}}>
+                            Run your day or your day will run you
+                        </Typography>
+                    </Grid>
+                </Grid>
             </Box>
             <Grid container justifyContent="center">
                 <Grid item xs={10} sm={10} md={8} lg={6}>
@@ -88,7 +107,7 @@ export const Dashboard = () => {
                             }}
                         />
                     </form>
-                    <Box sx={{ marginTop: '25px', height: '450px', overflowY: 'auto' }}>
+                    <Box sx={{ marginTop: 3, height: '450px', overflowY: 'auto' }}>
                         {tasks.map((task: Task, index: number) => (
                             <Paper elevation={3} key={index} sx={{
                                 opacity: task.status === TaskStatus.CLOSED ? 0.3 : 1,
@@ -104,6 +123,7 @@ export const Dashboard = () => {
                                 <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
                                     <Box alignItems="center" display="flex" flexDirection="row" >
                                         <Checkbox
+                                            checked={task.status === TaskStatus.CLOSED}
                                             onChange={() => dispatch(updateTask(task._id, { status: task.status === TaskStatus.OPEN ? TaskStatus.CLOSED : TaskStatus.OPEN }))}
                                             icon={<RadioButtonUncheckedIcon />}
                                             checkedIcon={<CheckCircleIcon />}
