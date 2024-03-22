@@ -4,30 +4,51 @@ import { TaskStatus, Task } from "./interfaces";
 
 interface StyledPaperProps {
     task: Task;
-  }
+}
 
 export const StyledInput = styled(TextField)(({ theme }) => ({
     '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: theme.palette.grey[700],
-      },
-      '&:hover fieldset': {
-        borderColor: theme.palette.primary.dark,
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: theme.palette.primary.dark,
-      },
+        '& fieldset': {
+            borderColor: theme.palette.grey[700],
+        },
+        '&:hover fieldset': {
+            borderColor: theme.palette.primary.dark,
+        },
+        '&.Mui-focused fieldset': {
+            borderColor: theme.palette.primary.dark,
+        },
     },
     '& .MuiInputLabel-root': {
-      color: theme.palette.primary.light,
+        color: theme.palette.primary.light,
     },
     '& .MuiInputBase-input': {
-      color: theme.palette.grey[400],
-      '&::placeholder': {
-        color: theme.palette.grey[300],
-      },
+        color: theme.palette.grey[400],
+        '&::placeholder': {
+            color: theme.palette.grey[300],
+        },
     },
-  }));
+}));
+
+export const StyledStandardTextField = styled(TextField)(({ theme }) => ({
+    '& .MuiInput-underline:after': {
+        borderBottom: 'none',
+      },
+      '& .MuiInput-underline:before': {
+        borderBottom: 'none',
+      },
+      '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
+        borderBottom: 'none',
+      },
+      '& .MuiInput-underline.Mui-focused:after': {
+        borderBottom: 'none',
+      },
+      '& .Mui-disabled .MuiInput-underline:before': {
+        borderBottom: 'none',
+      },
+      '& .MuiInputBase-input': {
+        caretColor: 'red', // Replace 'red' with your desired color
+      },
+}));
 
 export const RootContainer = styled('div')(({ theme }) => ({
     width: '100vw',
@@ -44,19 +65,19 @@ export const RootContainer = styled('div')(({ theme }) => ({
 export const StyledCheckbox = styled(Checkbox)(({ theme }) => ({
     '&:hover': {
         color: theme.palette.primary.dark,
-      },
-      '&.Mui-checked': {
+    },
+    '&.Mui-checked': {
         color: theme.palette.primary.dark,
         '&:hover': {
-          color: theme.palette.primary.dark, // color when checked and hovering
+            color: theme.palette.primary.dark, // color when checked and hovering
         },
-      },
+    },
 }));
 
 export const StyledIconButton = styled(IconButton)(({ theme }) => ({
     '&:hover': {
         color: theme.palette.primary.dark, // color when hovering
-      },
+    },
 }));
 
 export const StyledPaper = styled(Paper)<StyledPaperProps>(({ theme, task }) => ({
@@ -67,6 +88,6 @@ export const StyledPaper = styled(Paper)<StyledPaperProps>(({ theme, task }) => 
     height: '50px',
     backgroundColor: theme.palette.darkGrey,
     '&:hover': {
-      backgroundColor: theme.palette.lightGrey,
+        backgroundColor: theme.palette.lightGrey,
     },
-  }));
+}));
