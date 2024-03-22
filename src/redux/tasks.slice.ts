@@ -67,7 +67,7 @@ export const createTask = (body: CreateTask) => async (dispatch: AppDispatch, ge
     }
 };
 
-export const updateTask = (id: Types.ObjectId, body: Partial<CreateTask>) => async (dispatch: AppDispatch, getState: () => RootState) => {
+export const updateTask = (id: string, body: Partial<CreateTask>) => async (dispatch: AppDispatch, getState: () => RootState) => {
     try {
         let url = `http://localhost:3000/task/update/${id}`
         await axiosInstance.post(url, body);
@@ -79,7 +79,7 @@ export const updateTask = (id: Types.ObjectId, body: Partial<CreateTask>) => asy
     }
 }
 
-export const deleteTask = (id: Types.ObjectId) => async (dispatch: AppDispatch, getState: () => RootState) => {
+export const deleteTask = (id: string) => async (dispatch: AppDispatch, getState: () => RootState) => {
     try {
         let url = `http://localhost:3000/task/delete/${id}`
         await axiosInstance.delete(url);

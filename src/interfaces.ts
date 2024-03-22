@@ -6,7 +6,7 @@ export enum TaskStatus {
   }
 
 export interface Task {
-  _id: Types.ObjectId;
+  _id: string;
   content: string;
   status: TaskStatus;
   user: Types.ObjectId;
@@ -15,11 +15,11 @@ export interface Task {
 export interface CreateTask {
     content: string;
     status: TaskStatus;
-    user: Types.ObjectId;
+    user: string;
   }
 
 export interface User {
-    _id: Types.ObjectId;
+    _id: string;
     username: string;
     name: string;
     password: string;
