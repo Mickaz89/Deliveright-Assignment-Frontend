@@ -46,7 +46,7 @@ export const StyledStandardTextField = styled(TextField)(({ theme }) => ({
         borderBottom: 'none',
       },
       '& .MuiInputBase-input': {
-        caretColor: 'red', // Replace 'red' with your desired color
+        caretColor: theme.palette.primary.dark, // Replace 'red' with your desired color
       },
 }));
 
