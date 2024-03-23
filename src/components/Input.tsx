@@ -3,6 +3,7 @@ import { TextFieldProps } from '@mui/material';
 import { StyledInput } from '../styles';
 
 interface InputProps {
+    type?: string,
     label?: string;
     inputProps?: TextFieldProps['InputProps'];
     sx?: React.CSSProperties;
@@ -13,10 +14,11 @@ interface InputProps {
     inputRef?: React.Ref<any>
 }
 
-export const Input: React.FC<InputProps> = ({ label, sx, onChange, value, placeholder, inputProps, fullWidth, inputRef }) => {
+export const Input: React.FC<InputProps> = ({ type, label, sx, onChange, value, placeholder, inputProps, fullWidth, inputRef }) => {
 
     return (
         <StyledInput
+            type={type}
             inputRef={inputRef}
             fullWidth={fullWidth}
             onChange={onChange}

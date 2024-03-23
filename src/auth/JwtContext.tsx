@@ -1,6 +1,6 @@
 import { createContext, useEffect, useReducer, useCallback, ReactNode } from 'react';
 import axios from '../utils/axios';
-import { isValidToken, setSession } from './utils';
+import { isValidToken, jwtDecode, setSession } from './utils';
 
 interface State {
   isInitialized: boolean;
@@ -93,8 +93,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
       const access_token = localStorage.getItem('access_token');
       if (access_token && isValidToken(access_token)) {
         setSession(access_token);
-        const response = await axios.get('/auth/profile');
-        const  user  = response.data;
+        const decoded = jwtDecode(access_token);
+        const user = decoded.name
+        // const response = await axios.get('/auth/profile');
+        // const  user  = response.data;
 
         dispatch({
           type: 'INITIAL',
@@ -135,15 +137,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
         username,
         password,
       });
-      const { access_token, user } = response.data;
+      const { access_token } = response.data;
+      const decoded = jwtDecode(access_token);
+      const user = decoded.name
       setSession(access_token);
 
       dispatch({
         type: 'LOGIN',
         payload: {
           isAuthenticated: true, // Add the missing property
-          user,
-          error: null
+          error: null,
+          user
         },
       });
     } catch (error: any) {

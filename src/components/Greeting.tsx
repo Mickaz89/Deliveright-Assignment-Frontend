@@ -1,10 +1,9 @@
 import React from "react";
 import { Box, Grid, Theme, Typography, useTheme } from "@mui/material";
 import CircleIcon from '@mui/icons-material/Circle';
-import { User } from "../interfaces";
 
 interface GreetingProps {
-    user: User
+    user: string
 }
 
 export const Greeting: React.FC<GreetingProps> = ({ user }) => {
@@ -15,7 +14,7 @@ export const Greeting: React.FC<GreetingProps> = ({ user }) => {
         <>
             <Box display={"flex"} flexDirection={"row"} alignItems={"self-end"}>
                 <Typography variant="h4" color="white">
-                    Hello {user.name}
+                    Hello { user }
                 </Typography>
                 <Typography color="white">
                     <CircleIcon sx={{ color: theme.palette.primary.dark, fontSize: "10px" }} />
