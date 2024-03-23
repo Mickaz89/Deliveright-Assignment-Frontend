@@ -12,9 +12,20 @@ interface InputProps {
     placeholder?: string
     fullWidth?: boolean,
     inputRef?: React.Ref<any>
+    onKeyDown?: (event: React.KeyboardEvent) => void;
 }
 
-export const Input: React.FC<InputProps> = ({ type, label, sx, onChange, value, placeholder, inputProps, fullWidth, inputRef }) => {
+export const Input: React.FC<InputProps> = ({
+    type,
+    label,
+    sx,
+    onChange,
+    value,
+    placeholder,
+    inputProps,
+    fullWidth,
+    inputRef,
+    onKeyDown }) => {
 
     return (
         <StyledInput
@@ -27,6 +38,7 @@ export const Input: React.FC<InputProps> = ({ type, label, sx, onChange, value, 
             label={label}
             placeholder={placeholder}
             InputProps={inputProps}
+            onKeyDown={onKeyDown}
         />
     );
 }

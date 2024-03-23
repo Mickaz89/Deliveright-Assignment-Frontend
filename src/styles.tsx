@@ -30,25 +30,29 @@ export const StyledInput = styled(TextField)(({ theme }) => ({
 }));
 
 export const StyledStandardTextField = styled(TextField)(({ theme }) => ({
-    '& .MuiInput-underline:after': {
-        borderBottom: 'none',
-      },
-      '& .MuiInput-underline:before': {
-        borderBottom: 'none',
-      },
-      '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
-        borderBottom: 'none',
-      },
-      '& .MuiInput-underline.Mui-focused:after': {
-        borderBottom: 'none',
-      },
-      '& .Mui-disabled .MuiInput-underline:before': {
-        borderBottom: 'none',
-      },
-      '& .MuiInputBase-input': {
-        caretColor: theme.palette.primary.dark, // Replace 'red' with your desired color
-      },
-}));
+
+    '&& .MuiInput-underline:after': {
+      borderBottom: 'none',
+    },
+    '&& .MuiInput-underline:before': {
+      borderBottom: 'none',
+    },
+    '&& .MuiInput-underline:hover:not(.Mui-disabled):before': {
+      borderBottom: 'none',
+    },
+    '&& .MuiInput-underline.Mui-focused:after': {
+      borderBottom: 'none',
+    },
+    '&& .Mui-disabled .MuiInput-underline:before': {
+      borderBottom: 'none',
+    },
+    '&& .Mui-disabled .MuiInput-underline:after': {
+      borderBottom: 'none',
+    },
+    '&& .MuiInputBase-input': {
+      caretColor: theme.palette.primary.dark,
+    },
+  }));
 
 export const RootContainer = styled('div')(({ theme }) => ({
     width: '100vw',

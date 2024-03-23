@@ -21,7 +21,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task, handleUpdateTask, hand
         setContent(task.content);
     }, [task]);
 
-    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const onSubmit = (event: React.FormEvent<HTMLFormElement> | React.KeyboardEvent) => {
         event.preventDefault();
         handleUpdateTask(task._id, { content });
         if (inputRef.current) {
@@ -32,25 +32,29 @@ export const TaskCard: React.FC<TaskCardProps> = ({ task, handleUpdateTask, hand
     return (
         <StyledPaper task={task} elevation={3}>
             <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
-                <Box alignItems="center" display="flex" flexDirection="row" >
+                <Box alignItems="center" display="flex" flexDirection="row" width={"100%"}>
                     <StyledCheckbox
                         checked={task.status === TaskStatus.CLOSED}
                         onChange={() => handleUpdateTask(task._id, { status: task.status === TaskStatus.OPEN ? TaskStatus.CLOSED : TaskStatus.OPEN })}
                         icon={<RadioButtonUncheckedIcon />}
                         checkedIcon={<CheckCircleIcon />}
                     />
-                    {/* <Typography sx={{ marginLeft: "10px" }} fontWeight={'light'}>
-            {task.content}
-          </Typography> */}
-                    <form onSubmit={onSubmit}>
+
                         <StyledStandardTextField
                             disabled={task.status === TaskStatus.CLOSED}
                             variant='standard'
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
                             inputRef={inputRef}
+                            fullWidth
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                  e.preventDefault();
+                                  onSubmit(e);
+                                }
+                              }}
                         />
-                    </form>
+
                 </Box>
                 <Box>
                     <StyledIconButton onClick={() => handleDeleteTask(task._id)}>

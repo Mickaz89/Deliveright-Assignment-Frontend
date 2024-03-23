@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 interface CustomButtonProps {
   children: React.ReactNode;
   sx?: React.CSSProperties;
-  onClick: () => void;
+  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({ children, ...props }) => {

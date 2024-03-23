@@ -25,7 +25,7 @@ export const Dashboard = () => {
 
     const inputRef = React.useRef<HTMLInputElement>(null);
 
-    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const onSubmit = (event: React.FormEvent<HTMLFormElement> | React.KeyboardEvent) => {
         event.preventDefault();
         dispatch(createTask({ content, user: user._id, status: TaskStatus.OPEN }))
         setContent('');

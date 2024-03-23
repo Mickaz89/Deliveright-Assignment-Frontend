@@ -95,8 +95,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         setSession(access_token);
         const decoded = jwtDecode(access_token);
         const user = decoded.name
-        // const response = await axios.get('/auth/profile');
-        // const  user  = response.data;
 
         dispatch({
           type: 'INITIAL',
@@ -169,8 +167,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
         password,
         name
       });
-      const { access_token, user } = response.data;
+      const { access_token } = response.data;
       setSession(access_token);
+      const decoded = jwtDecode(access_token);
+      const user = decoded.name
+
       dispatch({
         type: 'REGISTER',
         payload: {
