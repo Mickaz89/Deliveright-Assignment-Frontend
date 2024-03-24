@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Grid, Theme, Typography, useTheme } from "@mui/material";
+import { Box, Theme, Typography, useTheme } from "@mui/material";
 import CircleIcon from '@mui/icons-material/Circle';
 
 interface GreetingProps {

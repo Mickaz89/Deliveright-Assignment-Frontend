@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { useAuthContext } from '../auth/useAuthContext';
 import { Input } from '../components/Input';
 import CustomButton from '../components/CustomButton';
